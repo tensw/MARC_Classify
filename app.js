@@ -560,6 +560,13 @@ goToStep = function(n) {
   if (n === 5) renderStage5();
 };
 
+// === MODAL ===
+const guideModal = document.getElementById('guide-modal');
+document.getElementById('open-guide').addEventListener('click', () => guideModal.classList.add('open'));
+document.getElementById('guide-close').addEventListener('click', () => guideModal.classList.remove('open'));
+guideModal.addEventListener('click', (e) => { if (e.target === guideModal) guideModal.classList.remove('open'); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') guideModal.classList.remove('open'); });
+
 // === INIT ===
 renderSampleChips();
 renderCompletedList();

@@ -105,6 +105,70 @@
   <div id="stage-5-content"></div>
 </section>
   </main>
+  <div class="modal-overlay" id="guide-modal">
+    <div class="modal">
+      <button class="modal-close" id="guide-close">×</button>
+      <h1>프로세스 설명서</h1>
+      <p class="lead">신규 도서 ISBN 한 번 입력으로 MARC 레코드까지 생성하고, 사람이 검수해 등록하는 5단계 프로세스</p>
+
+      <div class="proc-stepper">
+        <div class="pn"><span class="num">1</span>ISBN</div>
+        <span class="arrow">→</span>
+        <div class="pn"><span class="num">2</span>도서정보</div>
+        <span class="arrow">→</span>
+        <div class="pn"><span class="num">3</span>DDC</div>
+        <span class="arrow">→</span>
+        <div class="pn"><span class="num">4</span>MARC</div>
+        <span class="arrow">→</span>
+        <div class="pn"><span class="num">5</span>검수</div>
+      </div>
+
+      <div class="proc-card">
+        <h3>1단계 · ISBN 입력 <span class="manual-tag">사람</span></h3>
+        <dl class="grid">
+          <dt>입력</dt><dd>13자리 ISBN (또는 시연용 5권 칩 클릭)</dd>
+          <dt>처리</dt><dd>입력값 유효성 확인, 시연용 도서 매칭</dd>
+          <dt>출력</dt><dd>다음 단계로 진행 (도서 식별)</dd>
+        </dl>
+      </div>
+
+      <div class="proc-card">
+        <h3>2단계 · 도서 기본 정보 호출 <span class="auto-tag">자동</span> <span class="manual-tag">수정 가능</span></h3>
+        <dl class="grid">
+          <dt>입력</dt><dd>ISBN</dd>
+          <dt>처리</dt><dd>국립중앙도서관 API에서 서지 호출 (시연: 시드 데이터) + 책 지문 17필드 LLM 생성</dd>
+          <dt>출력</dt><dd>서지 7개 필드 + Fingerprint 17개 필드 (편집 가능)</dd>
+        </dl>
+      </div>
+
+      <div class="proc-card">
+        <h3>3단계 · DDC 분류 매칭 <span class="auto-tag">자동</span> <span class="manual-tag">선택 가능</span></h3>
+        <dl class="grid">
+          <dt>입력</dt><dd>책 지문 17필드</dd>
+          <dt>처리</dt><dd>SKKU DDC 사전 25,000여 항목과 의미 비교, 매칭 점수 산출</dd>
+          <dt>출력</dt><dd>추천 1개 + 대체 후보 2개 (점수와 근거 포함)</dd>
+        </dl>
+      </div>
+
+      <div class="proc-card">
+        <h3>4단계 · MARC 자동 생성 <span class="auto-tag">자동</span> <span class="manual-tag">수정 가능</span></h3>
+        <dl class="grid">
+          <dt>입력</dt><dd>서지 + 책 지문 + DDC</dd>
+          <dt>처리</dt><dd>SKKU MARC21 사전(361,353건 분석) 기반으로 18필드 생성, 의존관계·구두점 규칙 적용</dd>
+          <dt>출력</dt><dd>MARC 18필드 (필수 11 + 권장 7), 사용자 친화/Raw 토글 표시</dd>
+        </dl>
+      </div>
+
+      <div class="proc-card">
+        <h3>5단계 · 최종 검수 <span class="manual-tag">사람 (필수)</span></h3>
+        <dl class="grid">
+          <dt>입력</dt><dd>4단계 결과 전체</dd>
+          <dt>처리</dt><dd>자동 검증 7건 결과 + 검수자 책임 체크박스 확인</dd>
+          <dt>출력</dt><dd>검수자 승인 후 정식 등록, 대시보드 카운트 갱신</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
   <script src="data/sample-books.js"></script>
   <script src="data/book-details.js"></script>
   <script src="data/ddc-dict.js"></script>
