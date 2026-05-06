@@ -97,3 +97,29 @@ body { min-height: 100vh; }
 .btn-ghost:hover { background: #fafafa; border-color: #a3a3a3; }
 .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
 .btn-row.right { justify-content: flex-end; }
+
+/* Stat grid */
+.stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.stat { padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: #fff; }
+.stat .stat-label { font-size: 10px; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-bottom: 6px; }
+.stat .stat-num { font-size: 24px; font-weight: 800; color: var(--text); line-height: 1.1; }
+.stat .stat-num .unit { font-size: 12px; color: var(--text-3); font-weight: 500; margin-left: 3px; }
+.stat .stat-delta { font-size: 11px; color: var(--green); margin-top: 4px; }
+.stat .stat-delta.warn { color: var(--amber); }
+.stat.indigo { background: linear-gradient(135deg, var(--indigo-50), #fff); border-color: var(--indigo-200); }
+.stat.indigo .stat-num { color: var(--indigo); }
+
+@media (max-width: 768px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.table th { background: #fafafa; padding: 10px 12px; text-align: left; font-size: 10px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 1px solid var(--border); }
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--border-light); color: var(--text); }
+.table tr:hover td { background: #fafafa; }
+.badge { font-size: 10px; padding: 2px 8px; border-radius: var(--radius-xs); font-weight: 600; }
+.badge-done { background: var(--green-50); color: #065F46; }
+.badge-pending { background: var(--amber-50); color: #854d0e; }
+.ddc-mono { font-family: 'Courier New', monospace; color: var(--indigo); font-weight: 700; }
+.link { color: var(--indigo); font-weight: 600; cursor: pointer; text-decoration: none; font-size: 11px; }
+.link:hover { text-decoration: underline; }
+.table-footer { padding: 12px; background: #fafafa; text-align: center; font-size: 11px; color: var(--text-3); border-top: 1px solid var(--border-light); }

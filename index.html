@@ -41,6 +41,44 @@
     </div>
   </div>
 
+  <div class="panel">
+    <div class="panel-h">
+      📊 대시보드
+      <span class="meta">2026-05-06 기준 · 자동 갱신</span>
+    </div>
+    <div class="panel-body">
+      <div class="stat-grid">
+        <div class="stat"><div class="stat-label">전체 도서</div><div class="stat-num" id="stat-total">1,483,782<span class="unit">권</span></div><div class="stat-delta">실물 + 전자 합계</div></div>
+        <div class="stat"><div class="stat-label">실물책</div><div class="stat-num">714,172<span class="unit">권</span></div><div class="stat-delta">48.1%</div></div>
+        <div class="stat"><div class="stat-label">전자책</div><div class="stat-num">769,610<span class="unit">권</span></div><div class="stat-delta">51.9%</div></div>
+        <div class="stat"><div class="stat-label">오늘 입고</div><div class="stat-num">40<span class="unit">권</span></div><div class="stat-delta">금일 신착</div></div>
+        <div class="stat indigo"><div class="stat-label">MARC 생성 완료</div><div class="stat-num" id="stat-completed">27<span class="unit">/40</span></div><div class="stat-delta warn" id="stat-rate">진행률 67.5%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-h">
+      ✅ 생성 완료된 MARC
+      <span class="meta">최근 10건</span>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width:36px;"></th>
+          <th>제목 / 저자</th>
+          <th style="width:130px;">ISBN</th>
+          <th style="width:80px;">DDC</th>
+          <th style="width:100px;">처리일시</th>
+          <th style="width:80px;">검수자</th>
+          <th style="width:60px;">상태</th>
+          <th style="width:60px; text-align:right;"></th>
+        </tr>
+      </thead>
+      <tbody id="completed-list-body"></tbody>
+    </table>
+    <div class="table-footer"><a class="link" id="show-all-completed">전체 27건 보기 →</a></div>
+  </div>
 </section>
     <section class="stage" data-stage="2"><h2>2단계 도서정보 (구현 예정)</h2></section>
     <section class="stage" data-stage="3"><h2>3단계 DDC (구현 예정)</h2></section>

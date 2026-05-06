@@ -44,5 +44,37 @@ document.getElementById('call-book-info').addEventListener('click', () => {
   console.log('도서정보 호출:', state.selectedISBN);
 });
 
+// === STAGE 1: 완료 리스트 (목업 데이터) ===
+const COMPLETED_MARC_MOCK = [
+  { emoji: "📘", title: "지능의 탄생", author: "이대열", isbn: "9788932039459", ddc: "573.86", time: "14:22", reviewer: "김OO" },
+  { emoji: "📕", title: "한국 근현대사", author: "강만길", isbn: "9788958624028", ddc: "951.95", time: "14:18", reviewer: "김OO" },
+  { emoji: "📗", title: "딥러닝 입문", author: "김기현", isbn: "9791160505795", ddc: "006.31", time: "14:05", reviewer: "이OO" },
+  { emoji: "📙", title: "The Pragmatic Programmer", author: "Hunt, A.", isbn: "9780135957059", ddc: "005.1", time: "13:52", reviewer: "이OO" },
+  { emoji: "📔", title: "여행의 이유", author: "김영하", isbn: "9788954655729", ddc: "811.37", time: "13:40", reviewer: "박OO" },
+  { emoji: "📖", title: "채식주의자", author: "한강", isbn: "9788936433598", ddc: "811.36", time: "13:30", reviewer: "박OO" },
+  { emoji: "📓", title: "코스모스", author: "Sagan, Carl (홍승수 옮김)", isbn: "9788983711892", ddc: "520", time: "13:15", reviewer: "김OO" },
+];
+
+function renderCompletedList() {
+  const tbody = document.getElementById('completed-list-body');
+  tbody.innerHTML = COMPLETED_MARC_MOCK.map(b => `
+    <tr>
+      <td>${b.emoji}</td>
+      <td><strong>${b.title}</strong> / <span style="color:var(--text-3)">${b.author}</span></td>
+      <td class="mono" style="font-size:11px;">${b.isbn}</td>
+      <td><span class="ddc-mono">${b.ddc}</span></td>
+      <td style="font-size:11px;color:var(--text-3);">${b.time}</td>
+      <td>${b.reviewer}</td>
+      <td><span class="badge badge-done">승인</span></td>
+      <td style="text-align:right;"><a class="link">상세 →</a></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.link').forEach(link => {
+    link.addEventListener('click', () => alert('[상세 보기 화면 준비 중]'));
+  });
+  document.getElementById('show-all-completed').addEventListener('click', () => alert('[전체 목록 화면 준비 중]'));
+}
+
 // === INIT ===
 renderSampleChips();
+renderCompletedList();
