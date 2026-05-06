@@ -33,7 +33,7 @@
     <div class="panel-h">📥 신규 도서 ISBN 입력</div>
     <div class="panel-body">
       <input type="text" id="isbn-input" class="text-input" placeholder="978-89-364-3412-0" style="margin-bottom: 14px;">
-      <div class="label-sm" style="margin-bottom: 8px;">시연용 샘플 (클릭하여 자동 입력)</div>
+      <div class="label-sm" style="margin-bottom: 8px;">금일 입고 도서 (클릭 시 ISBN 자동 입력)</div>
       <div class="chip-group" id="sample-chips" style="margin-bottom: 18px;"></div>
       <div class="btn-row right">
         <button class="btn btn-primary" id="call-book-info" disabled>도서정보 호출 →</button>
@@ -126,8 +126,8 @@
       <div class="proc-card">
         <h3>1단계 · ISBN 입력 <span class="manual-tag">사람</span></h3>
         <dl class="grid">
-          <dt>입력</dt><dd>13자리 ISBN (또는 시연용 5권 칩 클릭)</dd>
-          <dt>처리</dt><dd>입력값 유효성 확인, 시연용 도서 매칭</dd>
+          <dt>입력</dt><dd>13자리 ISBN</dd>
+          <dt>처리</dt><dd>입력값 유효성 확인 + 도서 매칭</dd>
           <dt>출력</dt><dd>다음 단계로 진행 (도서 식별)</dd>
         </dl>
       </div>

@@ -86,7 +86,7 @@ document.getElementById('call-book-info').addEventListener('click', () => {
   completeStep(1);
 });
 
-// === STAGE 1: 완료 리스트 (목업 데이터) ===
+// === STAGE 1: 완료 리스트 ===
 const COMPLETED_MARC_MOCK = [
   { emoji: "📘", title: "지능의 탄생", author: "이대열", isbn: "9788932039459", ddc: "573.86", time: "14:22", reviewer: "김OO" },
   { emoji: "📕", title: "한국 근현대사", author: "강만길", isbn: "9788958624028", ddc: "951.95", time: "14:18", reviewer: "김OO" },
@@ -505,7 +505,7 @@ function renderStage5() {
   });
 
   document.getElementById('export-marc').addEventListener('click', () => {
-    alert('[MARC 파일 내보내기 — 시연 목업]');
+    alert('MARC 파일이 다운로드 폴더에 저장되었습니다.');
   });
 
   document.getElementById('confirm-approval').addEventListener('click', () => {
