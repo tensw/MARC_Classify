@@ -117,3 +117,170 @@ window.MARC_RECORDS = {
     is_translation: false
   }
 };
+
+window.COMPLETED_MARC_DETAILS = {
+  "9791167527318": {
+    summary: { ddc: "658.8", call_no: "658.8 김53ㄷ 2025", visible_count: 14, total: 18, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050610", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2025    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791167527318", name: "ISBN", essential: true },
+      { tag: "041", ind1: "0", ind2: "_", value: "▾a kor", name: "언어", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 658.8 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 658.8 ▾b 김53ㄷ ▾c 2025", name: "청구기호", essential: true },
+      { tag: "100", ind1: "0", ind2: "_", value: "▾a 김세훈", name: "저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 데이터로 읽고, 전략으로 움직여라 / ▾d 김세훈, 서광민 지음", name: "서명", essential: true },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 책나무, ▾c 2025.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 296 p. : ▾b 삽화 ; ▾c 21 cm", name: "형태", essential: true },
+      { tag: "504", ind1: "_", ind2: "_", value: "▾a 참고문헌 수록", name: "서지주기", essential: false },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 시장 데이터를 읽고 검증된 전략으로 움직이는 MPPA(Market-Proven Product Analysis) 방법론.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 마케팅 전략", name: "주제명", essential: false },
+      { tag: "700", ind1: "0", ind2: "_", value: "▾a 서광민, ▾e author", name: "공저자", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: false
+  },
+
+  "9791192313832": {
+    summary: { ddc: "813.36", call_no: "813.36 T112ㅅ 2024", visible_count: 16, total: 20, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050611", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2024    ulk           000 1 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791192313832", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h jpn", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 813.36 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 813.36 ▾b T112ㅅ ▾c 2024", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Takase, Norimitsu", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 센의 대여 서점 / ▾d 다카세 노리미츠 지음 ; ▾e 이아미 옮김", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a センの貸本屋", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 박북스, ▾c 2024.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 312 p. ; ▾c 19 cm", name: "형태", essential: true },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 일본 역사시대를 배경으로 한 대여 서점 이야기. 제100회 오르모노 신인상, 일본 역사시대 작가협회 신인상 수상작.", name: "요약", essential: false },
+      { tag: "586", ind1: "_", ind2: "_", value: "▾a 제100회 오르모노 신인상 (2025)", name: "수상", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 일본 역사 소설", name: "주제명", essential: false },
+      { tag: "700", ind1: "1", ind2: "_", value: "▾a 이아미, ▾e translator", name: "역자", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 다카세 노리미츠", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  },
+
+  "9791193904671": {
+    summary: { ddc: "332.024", call_no: "332.024 H266ㄷ 2025", visible_count: 16, total: 20, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050612", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2025    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791193904671", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h eng", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 332.024 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 332.024 ▾b H266ㄷ ▾c 2025", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Housel, Morgan", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 돈의 방정식 / ▾d Morgan Housel 지음 ; ▾e 박영문 옮김", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a The art of spending money", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 인플루엔셜, ▾c 2025.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 264 p. ; ▾c 22 cm", name: "형태", essential: true },
+      { tag: "504", ind1: "_", ind2: "_", value: "▾a 참고문헌 수록", name: "서지주기", essential: false },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 돈을 지키며 성공의 기준, 그 이상으로 다루기 위한 21가지 이야기.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 개인 재무 관리", name: "주제명", essential: false },
+      { tag: "700", ind1: "1", ind2: "_", value: "▾a 박영문, ▾e translator", name: "역자", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 모건 하우절", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  },
+
+  "9791199489530": {
+    summary: { ddc: "179.9", call_no: "179.9 G728ㅁ 2025", visible_count: 15, total: 19, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050613", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2025    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791199489530", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h eng ▾h spa", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 179.9 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 179.9 ▾b G728ㅁ ▾c 2025", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Gracián y Morales, Baltasar, ▾d 1601-1658", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 무례한 세상에서 나를 지키는 법 / ▾d 발타자르 그라시안 지음", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a The art of distance", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 위즈덤하우스, ▾c 2025.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 232 p. ; ▾c 20 cm", name: "형태", essential: true },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 17세기 스페인 철학자 발타자르 그라시안의 잠언을 현대적으로 풀어낸 처세 에세이.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 처세술", name: "주제명", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 인간 관계", name: "주제명", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 발타자르 그라시안", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  },
+
+  "9791162544327": {
+    summary: { ddc: "158.1", call_no: "158.1 R663ㄹ 2024", visible_count: 16, total: 20, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050614", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2024    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791162544327", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h eng", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 158.1 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 158.1 ▾b R663ㄹ ▾c 2024", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Robbins, Mel", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 렛뎀 이론 / ▾d Mel Robbins 지음 ; ▾e 이지연 옮김", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a The let them theory", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 한빛비즈, ▾c 2024.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 348 p. ; ▾c 21 cm", name: "형태", essential: true },
+      { tag: "504", ind1: "_", ind2: "_", value: "▾a 참고문헌 수록", name: "서지주기", essential: false },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 인생의 '나'로 충만해지는 내버려두기의 기술.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 자기 계발", name: "주제명", essential: false },
+      { tag: "700", ind1: "1", ind2: "_", value: "▾a 이지연, ▾e translator", name: "역자", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 멜 로빈스", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  },
+
+  "9791193941577": {
+    summary: { ddc: "612.82", call_no: "612.82 N134ㄴ 2024", visible_count: 16, total: 20, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050615", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2024    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791193941577", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h eng", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 612.82 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 612.82 ▾b N134ㄴ ▾c 2024", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Niebauer, Chris", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 뇌는 어떻게 나를 조종하는가 / ▾d Chris Niebauer 지음 ; ▾e 김윤경 옮김", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a No self, no problem", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 김영사, ▾c 2024.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 264 p. : ▾b 삽화 ; ▾c 22 cm", name: "형태", essential: true },
+      { tag: "504", ind1: "_", ind2: "_", value: "▾a 참고문헌 수록", name: "서지주기", essential: false },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 신경과학과 불교 명상의 통찰을 결합해 자아의 정체를 살피는 카이스트 추천 교양서.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 신경 과학 -- 대중 과학", name: "주제명", essential: false },
+      { tag: "700", ind1: "1", ind2: "_", value: "▾a 김윤경, ▾e translator", name: "역자", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 크리스 나이바우어", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  },
+
+  "9791193937396": {
+    summary: { ddc: "332.46", call_no: "332.46 B548ㅇ 2025", visible_count: 16, total: 20, edited: 0 },
+    visible: [
+      { tag: "001", ind1: "", ind2: "", value: "SKKU2026050616", name: "제어번호", essential: true },
+      { tag: "008", ind1: "", ind2: "", value: "260506s2025    ulk           000 0 kor d", name: "부호화 정보", essential: true },
+      { tag: "020", ind1: "_", ind2: "_", value: "▾a 9791193937396", name: "ISBN", essential: true },
+      { tag: "041", ind1: "1", ind2: "_", value: "▾a kor ▾h eng", name: "언어 (번역서)", essential: true },
+      { tag: "082", ind1: "0", ind2: "4", value: "▾a 332.46 ▾2 23", name: "DDC", essential: true },
+      { tag: "090", ind1: "", ind2: "", value: "▾a 332.46 ▾b B548ㅇ ▾c 2025", name: "청구기호", essential: true },
+      { tag: "100", ind1: "1", ind2: "_", value: "▾a Bernstein, William J.", name: "원저자", essential: true },
+      { tag: "245", ind1: "1", ind2: "0", value: "▾a 왜 그들만 부자가 되는가 / ▾d William J. Bernstein 지음 ; ▾e 백선영 옮김", name: "서명", essential: true },
+      { tag: "246", ind1: "1", ind2: "9", value: "▾a The birth of plenty", name: "원서명", essential: false },
+      { tag: "260", ind1: "_", ind2: "_", value: "▾a 서울 : ▾b 위즈덤하우스, ▾c 2025.", name: "발행", essential: true },
+      { tag: "300", ind1: "_", ind2: "_", value: "▾a 488 p. : ▾b 삽화 ; ▾c 23 cm", name: "형태", essential: true },
+      { tag: "504", ind1: "_", ind2: "_", value: "▾a 참고문헌 및 색인 수록", name: "서지주기", essential: false },
+      { tag: "520", ind1: "_", ind2: "_", value: "▾a 부의 격차를 좁히는 진짜 돈의 모습 — 세계적 경제 사학자가 추적한 부와 빈곤의 역사.", name: "요약", essential: false },
+      { tag: "650", ind1: "_", ind2: "8", value: "▾a 자본 -- 역사", name: "주제명", essential: false },
+      { tag: "700", ind1: "1", ind2: "_", value: "▾a 백선영, ▾e translator", name: "역자", essential: false },
+      { tag: "900", ind1: "", ind2: "", value: "▾a 윌리엄 번스타인", name: "한글표기", essential: false },
+    ],
+    collapsed: COLLAPSED_FIELDS,
+    is_translation: true
+  }
+};
