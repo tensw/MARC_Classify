@@ -103,9 +103,9 @@ function renderCompletedList() {
     <tr>
       <td>${b.emoji}</td>
       <td><strong>${b.title}</strong> / <span style="color:var(--text-3)">${b.author}</span></td>
-      <td class="mono" style="font-size:11px;">${b.isbn}</td>
+      <td class="mono" style="font-size:13px;">${b.isbn}</td>
       <td><span class="ddc-mono">${b.ddc}</span></td>
-      <td style="font-size:11px;color:var(--text-3);">${b.time}</td>
+      <td style="font-size:13px;color:var(--text-3);">${b.time}</td>
       <td>${b.reviewer}</td>
       <td><span class="badge badge-done">승인</span></td>
       <td style="text-align:right;"><a class="link">상세 →</a></td>
@@ -150,7 +150,7 @@ function renderFingerprintCard() {
 
   const hiddenNote = fingerprintExpanded
     ? ''
-    : `<div style="margin-top:10px;font-size:11px;color:var(--text-4);">… +${FP_HIDDEN_KEYS.length + 5}개 필드 (object/purpose, gen 메타 등) — "모두 펼쳐서 편집" 클릭 시 표시</div>`;
+    : `<div style="margin-top:10px;font-size:13px;color:var(--text-4);">… +${FP_HIDDEN_KEYS.length + 5}개 필드 (object/purpose, gen 메타 등) — "모두 펼쳐서 편집" 클릭 시 표시</div>`;
 
   document.getElementById('fingerprint-card-host').innerHTML = `
     <div class="panel">
@@ -275,7 +275,7 @@ function renderStage3() {
           <div>
             <div style="display:flex;align-items:baseline;gap:10px;">
               <span class="ddc-num" style="font-size:16px;">${a.ddc}</span>
-              <span class="ddc-name" style="font-size:13px;">${a.name}</span>
+              <span class="ddc-name" style="font-size:15px;">${a.name}</span>
             </div>
             <div class="ddc-meta">${a.note}</div>
           </div>
