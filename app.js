@@ -232,6 +232,96 @@ goToStep = function(n) {
   if (n === 2) renderStage2();
 };
 
+// === STAGE 3 ===
+function renderStage3() {
+  const cand = DDC_CANDIDATES[state.selectedISBN];
+  const rec = cand.recommended;
+  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
+
+  const explanation = rec.reasoning.explanation;
+
+  document.getElementById('stage-3-content').innerHTML = `
+    <div class="stage-h">
+      <div>
+        <h2>DDC 분류번호 매칭</h2>
+        <div class="sub">${meta.author} 『${meta.title}』 — 책 지문을 SKKU DDC 사전 25,000여 항목과 비교</div>
+      </div>
+      <span class="timing-badge">⚡ 자동 매칭 완료 · 0.8초</span>
+    </div>
+
+    <div class="ddc-card recommended" data-ddc="${rec.ddc}">
+      <div class="ddc-row-top">
+        <div>
+          <span class="ai-pick-badge">★ AI 추천</span>
+          <div style="margin-top:10px;display:flex;align-items:baseline;gap:12px;">
+            <span class="ddc-num">${rec.ddc}</span>
+            <span class="ddc-name">${rec.name}</span>
+          </div>
+          <div class="ddc-meta">${rec.meta}</div>
+        </div>
+        <div class="score-block">
+          <div class="label">매칭 점수</div>
+          <div class="num">${rec.score}<span class="max">/100</span></div>
+          <div class="score-bar-bg"><div class="score-bar" style="width:${rec.score}%;"></div></div>
+        </div>
+      </div>
+      <div class="reasoning"><strong style="color:var(--indigo)">왜 이 분류인가:</strong> ${highlightMatched(explanation, rec.reasoning.matched_keys)}</div>
+    </div>
+
+    <div class="alt-h">대체 후보</div>
+    ${cand.alternatives.map(a => `
+      <div class="ddc-card" data-ddc="${a.ddc}">
+        <div class="ddc-row-top">
+          <div>
+            <div style="display:flex;align-items:baseline;gap:10px;">
+              <span class="ddc-num" style="font-size:16px;">${a.ddc}</span>
+              <span class="ddc-name" style="font-size:13px;">${a.name}</span>
+            </div>
+            <div class="ddc-meta">${a.note}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-size:16px;font-weight:700;color:var(--text-3);">${a.score}</span>
+            <div class="score-bar-bg" style="width:90px;"><div class="score-bar alt" style="width:${a.score}%;"></div></div>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+
+  state.selectedDDC = rec;
+  highlightSelectedDDC();
+  document.querySelectorAll('#stage-3-content .ddc-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => {
+      const ddc = card.dataset.ddc;
+      if (ddc === rec.ddc) state.selectedDDC = rec;
+      else state.selectedDDC = cand.alternatives.find(a => a.ddc === ddc);
+      highlightSelectedDDC();
+    });
+  });
+}
+
+function highlightSelectedDDC() {
+  document.querySelectorAll('#stage-3-content .ddc-card').forEach(card => {
+    card.classList.toggle('recommended', card.dataset.ddc === state.selectedDDC.ddc);
+  });
+}
+
+function highlightMatched(text, keys) {
+  return text.replace(/\[([^\]]+)\]/g, '<span class="matched">$1</span>');
+}
+
+const _origGoToStep_s3 = goToStep;
+goToStep = function(n) {
+  _origGoToStep_s3(n);
+  if (n === 3) renderStage3();
+};
+
+document.getElementById('confirm-ddc').addEventListener('click', () => {
+  if (!state.selectedDDC) return;
+  completeStep(3);
+});
+
 // === INIT ===
 renderSampleChips();
 renderCompletedList();

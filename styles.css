@@ -148,3 +148,27 @@ body { min-height: 100vh; }
 .tag.editable:hover .x { opacity: 1; }
 .tag-add { display: inline-block; padding: 2px 8px; background: #fff; color: var(--indigo); border: 1px dashed var(--indigo); border-radius: var(--radius-xs); font-size: 10px; cursor: pointer; }
 .tag-add:hover { background: var(--indigo-50); }
+
+/* Stage 3 */
+.stage-h { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+.stage-h h2 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.stage-h .sub { font-size: 12px; color: var(--text-3); }
+.timing-badge { font-size: 11px; background: var(--indigo-50); color: var(--indigo); padding: 6px 12px; border-radius: var(--radius-sm); font-weight: 600; }
+
+.ddc-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; background: #fff; }
+.ddc-card.recommended { border: 2px solid var(--indigo); background: linear-gradient(180deg, #FAFAFF, #fff); }
+.ddc-num { font-family: 'Courier New', monospace; font-weight: 800; color: var(--indigo); font-size: 22px; }
+.ddc-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.ddc-meta { font-size: 11px; color: var(--text-3); margin-top: 4px; }
+.ddc-row-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.ai-pick-badge { font-size: 10px; background: var(--indigo); color: #fff; padding: 3px 9px; border-radius: var(--radius-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.score-block { text-align: right; min-width: 110px; }
+.score-block .label { font-size: 10px; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+.score-block .num { font-size: 22px; font-weight: 800; color: var(--indigo); margin-top: 2px; }
+.score-block .num .max { font-size: 12px; color: var(--text-3); font-weight: 500; }
+.score-bar-bg { width: 110px; height: 6px; background: var(--border); border-radius: 3px; margin-top: 5px; }
+.score-bar { height: 6px; border-radius: 3px; background: var(--indigo); }
+.score-bar.alt { background: var(--text-4); }
+.reasoning { background: #fafafa; border-radius: var(--radius-sm); padding: 12px 14px; font-size: 11px; color: var(--text-2); line-height: 1.6; margin-top: 10px; }
+.reasoning .matched { background: #FFF7CC; padding: 1px 5px; border-radius: 3px; color: #854d0e; font-weight: 600; }
+.alt-h { font-size: 11px; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin: 18px 0 8px; }
