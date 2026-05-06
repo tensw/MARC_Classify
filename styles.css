@@ -64,7 +64,7 @@ body { min-height: 100vh; }
 .stepper .line.done { background: var(--indigo); }
 
 /* App container */
-.stages { padding: 24px; max-width: 1200px; margin: 0 auto; }
+.stages { padding: 24px; }
 .stage { display: none; }
 .stage.active { display: block; }
 
