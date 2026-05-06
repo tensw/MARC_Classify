@@ -114,6 +114,16 @@ const TRANSITION_PHASES = {
     ],
     duration: 6000,
   },
+  'save': {
+    primary: 'MARC 레코드를 저장하고 있습니다',
+    subs: [
+      '레코드 무결성 최종 점검',
+      '학술정보관 시스템에 저장',
+      '검색 인덱스 갱신',
+      '카탈로그에 반영 완료',
+    ],
+    duration: 2500,
+  },
 };
 
 function showLoading(primaryText, subTexts, durationMs, onDone) {
@@ -729,7 +739,7 @@ function renderStage5() {
           <button class="btn btn-ghost" onclick="goToStep(4)">← MARC 다시 보기</button>
           <button class="btn btn-ghost" id="export-marc">MARC 파일로 내보내기</button>
         </div>
-        <button class="btn-confirm" id="confirm-approval" disabled>승인하고 등록</button>
+        <button class="btn-confirm" id="confirm-approval" disabled>저장하기</button>
        </div>`;
 
   document.getElementById('stage-5-content').innerHTML = `
@@ -783,29 +793,58 @@ function handleApproval() {
     isbn: state.selectedISBN,
   };
 
+  const phase = TRANSITION_PHASES['save'];
+  showLoading(phase.primary, phase.subs, phase.duration, finalizeApproval);
+}
+
+function finalizeApproval() {
+  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
+  const marc = state.marcRecord;
+  const now = new Date();
+  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  // 1. Add to completed list (top of list)
+  const newEntry = {
+    title: meta.title,
+    author: meta.author + (marc.is_translation ? ' (옮김)' : ''),
+    isbn: state.selectedISBN,
+    ddc: marc.summary.ddc,
+    time: timeStr,
+    reviewer: state.approval.reviewer.replace(/\s*사서$/, '') || state.approval.reviewer,
+  };
+  COMPLETED_MARC_MOCK.unshift(newEntry);
+
+  // 2. Add to view-mode index
+  COMPLETED_MARC_DETAILS[state.selectedISBN] = marc;
+
+  // 3. Re-render completed list with new entry at top
+  renderCompletedList();
+
+  // 4. Update dashboard
   const stat = document.getElementById('stat-completed');
   const rate = document.getElementById('stat-rate');
   const m = stat.textContent.match(/(\d+)\/(\d+)/);
+  let newDone, total;
   if (m) {
-    const newDone = Number(m[1]) + 1;
-    const total = Number(m[2]);
+    newDone = Number(m[1]) + 1;
+    total = Number(m[2]);
     stat.innerHTML = `${newDone}<span class="unit">/${total}</span>`;
     rate.textContent = `진행률 ${(newDone / total * 100).toFixed(1)}%`;
   }
 
-  showToast(`등록 완료 · 대시보드 카운트가 ${m ? Number(m[1]) + 1 : '?'}/${m ? m[2] : '?'}로 갱신됨`);
+  showToast(`등록 완료 · 대시보드 카운트 ${newDone || '?'}/${total || '?'}로 갱신`);
 
-  setTimeout(() => {
-    state.completedSteps.clear();
-    state.selectedISBN = null;
-    state.bookData = null;
-    state.selectedDDC = null;
-    state.marcRecord = null;
-    document.getElementById('isbn-input').value = '';
-    document.querySelectorAll('#sample-chips .chip').forEach(c => { c.classList.remove('active'); c.classList.add('idle'); });
-    document.getElementById('call-book-info').disabled = true;
-    goToStep(1);
-  }, 1500);
+  // 5. Reset wizard state and return home
+  state.completedSteps.clear();
+  state.selectedISBN = null;
+  state.bookData = null;
+  state.selectedDDC = null;
+  state.marcRecord = null;
+  state.viewMode = false;
+  document.getElementById('isbn-input').value = '';
+  document.querySelectorAll('#sample-chips .chip').forEach(c => { c.classList.remove('active'); c.classList.add('idle'); });
+  document.getElementById('call-book-info').disabled = true;
+  goToStep(1);
 }
 
 function showToast(msg) {
