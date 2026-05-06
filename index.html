@@ -84,7 +84,7 @@
   <div id="stage-2-content"></div>
   <div class="btn-row">
     <button class="btn btn-ghost" onclick="goToStep(1)">← ISBN 다시 입력</button>
-    <button class="btn btn-primary" onclick="completeStep(2)">DDC 분류 매칭 →</button>
+    <button class="btn btn-primary" onclick="transitionToStep(2)">DDC 분류 매칭 →</button>
   </div>
 </section>
     <section class="stage" data-stage="3">
@@ -105,6 +105,15 @@
   <div id="stage-5-content"></div>
 </section>
   </main>
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-card">
+      <div class="loading-spinner"></div>
+      <div class="loading-primary" id="loading-primary"></div>
+      <div class="loading-sub" id="loading-sub"></div>
+      <div class="loading-progress"><div class="loading-progress-bar"></div></div>
+    </div>
+  </div>
+
   <div class="modal-overlay" id="guide-modal">
     <div class="modal">
       <button class="modal-close" id="guide-close">×</button>

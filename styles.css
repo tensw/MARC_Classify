@@ -126,6 +126,19 @@ body { min-height: 100vh; }
 .cover-thumb { width: 36px; height: 50px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); display: block; }
 .view-banner { padding: 12px 16px; background: var(--amber-50); border: 1px solid var(--amber); color: #854d0e; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
 
+/* Loading overlay */
+.loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.92); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 2000; }
+.loading-overlay.active { display: flex; animation: fade-in 0.2s ease; }
+.loading-card { text-align: center; padding: 36px 56px; }
+.loading-spinner { width: 52px; height: 52px; border: 3px solid var(--indigo-50); border-top-color: var(--indigo); border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 24px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-primary { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: -0.2px; }
+.loading-sub { font-size: 13px; color: var(--text-3); min-height: 20px; transition: opacity 0.25s ease; }
+.loading-progress { width: 240px; height: 3px; background: var(--indigo-50); border-radius: 2px; margin: 24px auto 0; overflow: hidden; }
+.loading-progress-bar { height: 100%; background: var(--indigo); width: 0; }
+.loading-overlay.active .loading-progress-bar { animation: progress var(--loading-duration, 3000ms) linear forwards; }
+@keyframes progress { from { width: 0; } to { width: 100%; } }
+
 /* Stage 2 */
 .book-head { display: flex; gap: 16px; align-items: flex-start; padding: 18px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; }
 .book-head img { width: 80px; height: 112px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }

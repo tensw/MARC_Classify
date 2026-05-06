@@ -29,6 +29,74 @@ function viewCompletedMarc(isbn) {
   goToStep(4);
 }
 
+// === LOADING TRANSITIONS ===
+const TRANSITION_PHASES = {
+  '1to2': {
+    primary: '도서 정보를 호출하고 있습니다',
+    subs: [
+      'ISBN 유효성 검증',
+      '국립중앙도서관 API 조회',
+      '책 지문(Fingerprint) 17필드 자동 추출',
+    ],
+    duration: 3000,
+  },
+  '2to3': {
+    primary: 'DDC 분류번호를 매칭하고 있습니다',
+    subs: [
+      '책 지문 임베딩 생성',
+      'SKKU DDC 사전 25,000여 항목과 의미 비교',
+      '매칭 점수 산출 중',
+      '추천 분류 + 대체 후보 2개 선정',
+    ],
+    duration: 5000,
+  },
+  '3to4': {
+    primary: 'MARC 레코드를 생성하고 있습니다',
+    subs: [
+      'SKKU MARC21 사전(361,353건 분석) 참조',
+      '필수 필드 11개 구성',
+      '의존관계 규칙 적용 (082 → 090, 100 → 245)',
+      'ISBD 구두점 규칙 적용',
+      '인디케이터 패턴 SKKU 표준 매핑',
+      'Raw MARC 출력 형식 준비',
+    ],
+    duration: 6000,
+  },
+};
+
+function showLoading(primaryText, subTexts, durationMs, onDone) {
+  const overlay = document.getElementById('loading-overlay');
+  const subEl = document.getElementById('loading-sub');
+  document.getElementById('loading-primary').textContent = primaryText;
+  subEl.textContent = subTexts[0];
+  overlay.style.setProperty('--loading-duration', durationMs + 'ms');
+  overlay.classList.add('active');
+
+  const interval = Math.max(800, Math.floor(durationMs / subTexts.length));
+  let i = 0;
+  const cycler = setInterval(() => {
+    i = Math.min(i + 1, subTexts.length - 1);
+    subEl.style.opacity = '0';
+    setTimeout(() => {
+      subEl.textContent = subTexts[i];
+      subEl.style.opacity = '1';
+    }, 150);
+  }, interval);
+
+  setTimeout(() => {
+    clearInterval(cycler);
+    overlay.classList.remove('active');
+    if (typeof onDone === 'function') onDone();
+  }, durationMs);
+}
+
+function transitionToStep(fromStep) {
+  const key = `${fromStep}to${fromStep + 1}`;
+  const phase = TRANSITION_PHASES[key];
+  if (!phase) { completeStep(fromStep); return; }
+  showLoading(phase.primary, phase.subs, phase.duration, () => completeStep(fromStep));
+}
+
 function exitViewMode() {
   state.viewMode = false;
   state.completedSteps.clear();
@@ -120,7 +188,7 @@ document.getElementById('isbn-input').addEventListener('input', (e) => {
 document.getElementById('call-book-info').addEventListener('click', () => {
   if (!state.selectedISBN || !BOOK_DETAILS[state.selectedISBN]) return;
   state.bookData = BOOK_DETAILS[state.selectedISBN];
-  completeStep(1);
+  transitionToStep(1);
 });
 
 // === STAGE 1: 완료 리스트 ===
@@ -356,7 +424,7 @@ goToStep = function(n) {
 
 document.getElementById('confirm-ddc').addEventListener('click', () => {
   if (!state.selectedDDC) return;
-  completeStep(3);
+  transitionToStep(3);
 });
 
 // === STAGE 4 ===
