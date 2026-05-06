@@ -28,7 +28,20 @@
   </nav>
 
   <main class="stages">
-    <section class="stage active" data-stage="1"><h2>1단계 ISBN 입력 (구현 예정)</h2></section>
+    <section class="stage active" data-stage="1">
+  <div class="panel">
+    <div class="panel-h">📥 신규 도서 ISBN 입력</div>
+    <div class="panel-body">
+      <input type="text" id="isbn-input" class="text-input" placeholder="978-89-364-3412-0" style="margin-bottom: 14px;">
+      <div class="label-sm" style="margin-bottom: 8px;">시연용 샘플 (클릭하여 자동 입력)</div>
+      <div class="chip-group" id="sample-chips" style="margin-bottom: 18px;"></div>
+      <div class="btn-row right">
+        <button class="btn btn-primary" id="call-book-info" disabled>도서정보 호출 →</button>
+      </div>
+    </div>
+  </div>
+
+</section>
     <section class="stage" data-stage="2"><h2>2단계 도서정보 (구현 예정)</h2></section>
     <section class="stage" data-stage="3"><h2>3단계 DDC (구현 예정)</h2></section>
     <section class="stage" data-stage="4"><h2>4단계 MARC (구현 예정)</h2></section>

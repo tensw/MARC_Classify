@@ -67,3 +67,33 @@ body { min-height: 100vh; }
 .stages { padding: 24px; max-width: 1200px; margin: 0 auto; }
 .stage { display: none; }
 .stage.active { display: block; }
+
+/* Panel */
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; box-shadow: var(--shadow-sm); }
+.panel-h { padding: 14px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: var(--text); }
+.panel-h .meta { font-weight: 400; color: var(--text-4); font-size: 11px; }
+.panel-body { padding: 18px; }
+
+/* Input */
+.text-input { width: 100%; padding: 10px 12px; border: 1px solid #d4d4d4; border-radius: var(--radius-sm); font-size: 12px; background: #fff; font-family: inherit; }
+.text-input:focus { outline: none; border-color: var(--indigo); box-shadow: 0 0 0 3px var(--indigo-50); }
+
+/* Label */
+.label-sm { font-size: 10px; color: var(--text-4); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+/* Chips */
+.chip-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: var(--radius-sm); font-size: 11px; cursor: pointer; transition: all 0.15s; user-select: none; }
+.chip.idle { background: #fff; color: var(--text-2); border: 1px solid var(--border); }
+.chip.idle:hover { border-color: var(--indigo); color: var(--indigo); }
+.chip.active { background: var(--indigo-50); color: var(--indigo); border: 1px solid var(--indigo); font-weight: 600; }
+
+/* Buttons */
+.btn { padding: 9px 16px; border: none; border-radius: var(--radius-sm); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.btn-primary { background: var(--indigo); color: #fff; }
+.btn-primary:hover { background: #4338CA; }
+.btn-primary:disabled { background: #c7d2fe; cursor: not-allowed; }
+.btn-ghost { background: #fff; color: var(--text-2); border: 1px solid #d4d4d4; }
+.btn-ghost:hover { background: #fafafa; border-color: #a3a3a3; }
+.btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+.btn-row.right { justify-content: flex-end; }
