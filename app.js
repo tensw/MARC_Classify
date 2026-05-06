@@ -322,6 +322,108 @@ document.getElementById('confirm-ddc').addEventListener('click', () => {
   completeStep(3);
 });
 
+// === STAGE 4 ===
+let marcRawMode = false;
+let marcCollapseOpen = false;
+
+function renderStage4() {
+  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
+  const marc = MARC_RECORDS[state.selectedISBN];
+  state.marcRecord = marc;
+
+  document.getElementById('stage-4-content').innerHTML = `
+    <div class="stage-h">
+      <div>
+        <h2>MARC 레코드 자동 생성</h2>
+        <div class="sub">${meta.author} 『${meta.title}』 · DDC ${marc.summary.ddc} · SKKU MARC21 사전(361,353건 분석) 기반</div>
+      </div>
+      <div class="toggle-bar">
+        <button class="${marcRawMode ? '' : 'on'}" id="toggle-friendly">사용자 친화</button>
+        <button class="${marcRawMode ? 'on' : ''}" id="toggle-raw">Raw MARC</button>
+      </div>
+    </div>
+    <div class="info-badges">
+      <span class="info-badge indigo">⚡ ${marc.summary.total}개 필드 자동 생성 · 1.2초</span>
+      <span class="info-badge neutral">🔒 필수 필드 11개 충족</span>
+      <span class="info-badge neutral">✓ 규칙 체크 통과</span>
+    </div>
+    <div id="marc-host"></div>
+  `;
+
+  document.getElementById('toggle-friendly').addEventListener('click', () => { marcRawMode = false; renderMarcBody(); document.getElementById('toggle-friendly').classList.add('on'); document.getElementById('toggle-raw').classList.remove('on'); });
+  document.getElementById('toggle-raw').addEventListener('click', () => { marcRawMode = true; renderMarcBody(); document.getElementById('toggle-raw').classList.add('on'); document.getElementById('toggle-friendly').classList.remove('on'); });
+
+  renderMarcBody();
+}
+
+function renderMarcBody() {
+  const marc = state.marcRecord;
+  const host = document.getElementById('marc-host');
+
+  if (marcRawMode) {
+    const all = [...marc.visible, ...marc.collapsed];
+    host.innerHTML = `<div class="marc-raw">${all.map(f => formatRawLine(f)).join('\n')}</div>`;
+    return;
+  }
+
+  const renderField = (f) => `
+    <div class="marc-row" data-tag="${f.tag}" data-edit="${f.tag === '520' ? 'true' : 'false'}">
+      <div><div class="tag ${f.essential ? 'essential' : ''}">${f.tag}</div><div class="tag-name">${f.name}</div></div>
+      <div class="ind">${f.ind1 || ''}</div>
+      <div class="ind">${f.ind2 || ''}</div>
+      <div class="val">${formatValueHTML(f.value)}</div>
+      <div><span class="marc-status ${f.edited ? 'status-edit' : 'status-auto'}">${f.edited ? '수정됨' : '자동'}</span></div>
+    </div>`;
+
+  host.innerHTML = `
+    <div class="marc-table">
+      <div class="marc-head">
+        <div>태그</div><div>I1</div><div>I2</div><div>값</div><div style="text-align:center;">상태</div>
+      </div>
+      ${marc.visible.map(f => renderField(f)).join('')}
+      ${marcCollapseOpen
+        ? marc.collapsed.map(f => renderField(f)).join('')
+        : `<div class="marc-collapse">… +${marc.collapsed.length}개 필드 (${marc.collapsed.map(f=>f.tag).join(', ')}) — 클릭하여 펼치기</div>`}
+    </div>
+  `;
+
+  const collapseBtn = host.querySelector('.marc-collapse');
+  if (collapseBtn) collapseBtn.addEventListener('click', () => { marcCollapseOpen = true; renderMarcBody(); });
+
+  host.querySelectorAll('.marc-row[data-edit="true"]').forEach(row => {
+    row.addEventListener('click', () => openEditPanel(row.dataset.tag));
+  });
+}
+
+function formatValueHTML(v) {
+  return v.replace(/▾(\w)/g, '<span class="sub">▾$1</span>');
+}
+
+function formatRawLine(f) {
+  const ind = (f.ind1 || ' ') + (f.ind2 || ' ');
+  const val = f.value.replace(/▾/g, '$').replace(/ /g, '');
+  return `=${f.tag} ${ind === '  ' ? '' : ind}${val}`;
+}
+
+function openEditPanel(tag) {
+  const marc = state.marcRecord;
+  const field = marc.visible.find(f => f.tag === tag);
+  if (!field) return;
+  const currentText = field.value.replace(/^▾a /, '');
+  const newText = prompt(`${tag} (${field.name}) 편집:`, currentText);
+  if (newText === null) return;
+  field.value = `▾a ${newText}`;
+  field.edited = true;
+  marc.summary.edited = (marc.summary.edited || 0) + 1;
+  renderMarcBody();
+}
+
+const _origGoToStep_s4 = goToStep;
+goToStep = function(n) {
+  _origGoToStep_s4(n);
+  if (n === 4) { marcCollapseOpen = false; marcRawMode = false; renderStage4(); }
+};
+
 // === INIT ===
 renderSampleChips();
 renderCompletedList();
