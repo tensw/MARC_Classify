@@ -9,6 +9,46 @@ const state = {
   approval: null,
 };
 
+// === STAGE NAVIGATION ===
+function goToStep(n) {
+  if (n < 1 || n > 5) return;
+  if (n > state.currentStep && !state.completedSteps.has(n - 1)) return;
+
+  state.currentStep = n;
+  document.querySelectorAll('.stage').forEach(s => {
+    s.classList.toggle('active', Number(s.dataset.stage) === n);
+  });
+  updateStepper();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function completeStep(n) {
+  state.completedSteps.add(n);
+  goToStep(n + 1);
+}
+
+function updateStepper() {
+  document.querySelectorAll('.stepper .node').forEach(node => {
+    const step = Number(node.dataset.step);
+    node.classList.remove('done', 'active', 'clickable');
+    if (state.completedSteps.has(step) && step !== state.currentStep) {
+      node.classList.add('done', 'clickable');
+    } else if (step === state.currentStep) {
+      node.classList.add('active');
+    }
+  });
+  document.querySelectorAll('.stepper .line').forEach((line, idx) => {
+    line.classList.toggle('done', state.completedSteps.has(idx + 1));
+  });
+}
+
+document.querySelectorAll('.stepper .node').forEach(node => {
+  node.addEventListener('click', () => {
+    const step = Number(node.dataset.step);
+    if (state.completedSteps.has(step) || step === state.currentStep) goToStep(step);
+  });
+});
+
 // === STAGE 1: ISBN 입력 + 칩 ===
 function renderSampleChips() {
   const container = document.getElementById('sample-chips');
@@ -41,7 +81,9 @@ document.getElementById('isbn-input').addEventListener('input', (e) => {
 });
 
 document.getElementById('call-book-info').addEventListener('click', () => {
-  console.log('도서정보 호출:', state.selectedISBN);
+  if (!state.selectedISBN || !BOOK_DETAILS[state.selectedISBN]) return;
+  state.bookData = BOOK_DETAILS[state.selectedISBN];
+  completeStep(1);
 });
 
 // === STAGE 1: 완료 리스트 (목업 데이터) ===

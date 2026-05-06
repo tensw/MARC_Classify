@@ -80,10 +80,34 @@
     <div class="table-footer"><a class="link" id="show-all-completed">전체 27건 보기 →</a></div>
   </div>
 </section>
-    <section class="stage" data-stage="2"><h2>2단계 도서정보 (구현 예정)</h2></section>
-    <section class="stage" data-stage="3"><h2>3단계 DDC (구현 예정)</h2></section>
-    <section class="stage" data-stage="4"><h2>4단계 MARC (구현 예정)</h2></section>
-    <section class="stage" data-stage="5"><h2>5단계 검수 (구현 예정)</h2></section>
+    <section class="stage" data-stage="2">
+  <h2>2단계 도서정보 (구현 예정)</h2>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="goToStep(state.currentStep - 1)">← 이전</button>
+    <button class="btn btn-primary" onclick="completeStep(state.currentStep)">다음 →</button>
+  </div>
+</section>
+    <section class="stage" data-stage="3">
+  <h2>3단계 DDC (구현 예정)</h2>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="goToStep(state.currentStep - 1)">← 이전</button>
+    <button class="btn btn-primary" onclick="completeStep(state.currentStep)">다음 →</button>
+  </div>
+</section>
+    <section class="stage" data-stage="4">
+  <h2>4단계 MARC (구현 예정)</h2>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="goToStep(state.currentStep - 1)">← 이전</button>
+    <button class="btn btn-primary" onclick="completeStep(state.currentStep)">다음 →</button>
+  </div>
+</section>
+    <section class="stage" data-stage="5">
+  <h2>5단계 검수 (구현 예정)</h2>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="goToStep(state.currentStep - 1)">← 이전</button>
+    <button class="btn btn-primary" onclick="alert('완료 (시연용)')">완료</button>
+  </div>
+</section>
   </main>
   <script src="data/sample-books.js"></script>
   <script src="data/book-details.js"></script>
