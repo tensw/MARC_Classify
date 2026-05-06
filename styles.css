@@ -123,3 +123,21 @@ body { min-height: 100vh; }
 .link { color: var(--indigo); font-weight: 600; cursor: pointer; text-decoration: none; font-size: 11px; }
 .link:hover { text-decoration: underline; }
 .table-footer { padding: 12px; background: #fafafa; text-align: center; font-size: 11px; color: var(--text-3); border-top: 1px solid var(--border-light); }
+
+/* Stage 2 */
+.book-head { display: flex; gap: 16px; align-items: flex-start; padding: 18px; background: #fff; border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 16px; }
+.book-head img { width: 80px; height: 112px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
+.book-head .info { flex: 1; }
+.book-head h2 { font-size: 18px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+.book-head .meta-line { font-size: 12px; color: var(--text-3); }
+
+.section-h-mini { font-size: 11px; font-weight: 700; color: var(--indigo); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.section-h-mini .meta { font-weight: 400; color: var(--text-4); text-transform: none; letter-spacing: normal; font-size: 11px; }
+
+.kv-row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: start; padding: 8px 0; border-bottom: 1px solid var(--border-light); }
+.kv-row:last-child { border-bottom: none; }
+.kv-row .k { font-size: 11px; color: var(--text-3); font-weight: 500; }
+.kv-row .v { font-size: 12px; color: var(--text); }
+.kv-row .v.muted { color: var(--text-4); }
+
+.tag { display: inline-block; padding: 2px 8px; background: var(--indigo-50); color: var(--indigo); border-radius: var(--radius-xs); font-size: 10px; font-weight: 500; margin-right: 4px; margin-bottom: 3px; }

@@ -117,6 +117,51 @@ function renderCompletedList() {
   document.getElementById('show-all-completed').addEventListener('click', () => alert('[전체 목록 화면 준비 중]'));
 }
 
+// === STAGE 2 ===
+function renderStage2() {
+  if (!state.bookData) return;
+  const b = state.bookData.biblio;
+  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
+  document.getElementById('stage-2-content').innerHTML = `
+    <div class="book-head">
+      <img src="${meta.cover}" alt="${b.title} 표지">
+      <div class="info">
+        <h2>${b.title}</h2>
+        <div class="meta-line">${b.author} (지음) · ${b.publisher} · ${b.year} · ISBN ${state.selectedISBN}</div>
+      </div>
+      <button class="btn btn-ghost" id="expand-fingerprint">✏️ 모두 펼쳐서 편집</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-body">
+        <div class="section-h-mini">📚 서지 기본 정보 <span class="meta">국립중앙도서관 API 호출 결과</span></div>
+        <div class="kv-row"><div class="k">제목</div><div class="v">${b.title}</div></div>
+        <div class="kv-row"><div class="k">저자</div><div class="v">${b.author}</div></div>
+        <div class="kv-row"><div class="k">출판사</div><div class="v">${b.publisher} (${b.publisher_place})</div></div>
+        <div class="kv-row"><div class="k">발행년</div><div class="v">${b.year}</div></div>
+        <div class="kv-row"><div class="k">페이지·크기</div><div class="v">${b.pages} ; ${b.size}</div></div>
+        <div class="kv-row"><div class="k">언어</div><div class="v">${b.language}</div></div>
+        <div class="kv-row"><div class="k">원서명/원저자</div><div class="v ${b.original_title ? '' : 'muted'}">${b.original_title ? `${b.original_title} / ${b.original_author}` : '— (원작 없음)'}</div></div>
+        ${b.edition ? `<div class="kv-row"><div class="k">판차</div><div class="v">${b.edition}</div></div>` : ''}
+      </div>
+    </div>
+
+    <div id="fingerprint-card-host"></div>
+  `;
+  renderFingerprintCard();
+  document.getElementById('expand-fingerprint').addEventListener('click', () => {
+    fingerprintExpanded = !fingerprintExpanded;
+    document.getElementById('expand-fingerprint').textContent = fingerprintExpanded ? '⬆ 핵심만 보기' : '✏️ 모두 펼쳐서 편집';
+    renderFingerprintCard();
+  });
+}
+
+const _origGoToStep_s2 = goToStep;
+goToStep = function(n) {
+  _origGoToStep_s2(n);
+  if (n === 2) renderStage2();
+};
+
 // === INIT ===
 renderSampleChips();
 renderCompletedList();
