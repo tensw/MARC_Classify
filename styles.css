@@ -32,7 +32,8 @@ body { min-height: 100vh; }
   background: #fff; border-bottom: 1px solid var(--border);
   padding: 12px 24px; display: flex; align-items: center; justify-content: space-between;
 }
-.app-header .brand { display: flex; align-items: center; gap: 12px; }
+.app-header .brand { display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
+.app-header .brand:hover { opacity: 0.7; }
 .app-header .brand img { height: 28px; }
 .app-header .brand .subtitle { font-size: 14px; color: var(--text-3); }
 .app-header .guide-btn {

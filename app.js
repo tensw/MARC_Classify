@@ -97,7 +97,7 @@ function transitionToStep(fromStep) {
   showLoading(phase.primary, phase.subs, phase.duration, () => completeStep(fromStep));
 }
 
-function exitViewMode() {
+function goHome() {
   state.viewMode = false;
   state.completedSteps.clear();
   state.selectedISBN = null;
@@ -147,7 +147,7 @@ document.querySelectorAll('.stepper .node').forEach(node => {
   node.addEventListener('click', () => {
     const step = Number(node.dataset.step);
     if (state.viewMode) {
-      if (step !== state.currentStep) exitViewMode();
+      if (step !== state.currentStep) goHome();
       return;
     }
     if (state.completedSteps.has(step) || step === state.currentStep) goToStep(step);
@@ -467,7 +467,7 @@ function renderStage4() {
   const btnRow = document.getElementById('stage-4-buttons');
   if (btnRow) {
     btnRow.innerHTML = isView
-      ? `<button class="btn btn-ghost" onclick="exitViewMode()">← 완료 목록으로</button>`
+      ? `<button class="btn btn-ghost" onclick="goHome()">← 완료 목록으로</button>`
       : `<button class="btn btn-ghost" onclick="goToStep(3)">← DDC 다시 매칭</button>
          <button class="btn btn-primary" onclick="completeStep(4)">최종 검수 →</button>`;
   }
