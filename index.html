@@ -7,7 +7,33 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app">스캐폴드 OK</div>
+  <header class="app-header">
+    <div class="brand">
+      <img src="assets/biblo-logo.png" alt="biblo">
+      <span class="subtitle">학술정보관 MARC 자동 생성</span>
+    </div>
+    <button class="guide-btn" id="open-guide">📖 프로세스 설명서</button>
+  </header>
+
+  <nav class="stepper" id="stepper">
+    <div class="node active" data-step="1"><span class="circle">1</span><span class="label">ISBN</span></div>
+    <div class="line"></div>
+    <div class="node" data-step="2"><span class="circle">2</span><span class="label">도서정보</span></div>
+    <div class="line"></div>
+    <div class="node" data-step="3"><span class="circle">3</span><span class="label">DDC</span></div>
+    <div class="line"></div>
+    <div class="node" data-step="4"><span class="circle">4</span><span class="label">MARC</span></div>
+    <div class="line"></div>
+    <div class="node" data-step="5"><span class="circle">5</span><span class="label">검수</span></div>
+  </nav>
+
+  <main class="stages">
+    <section class="stage active" data-stage="1"><h2>1단계 ISBN 입력 (구현 예정)</h2></section>
+    <section class="stage" data-stage="2"><h2>2단계 도서정보 (구현 예정)</h2></section>
+    <section class="stage" data-stage="3"><h2>3단계 DDC (구현 예정)</h2></section>
+    <section class="stage" data-stage="4"><h2>4단계 MARC (구현 예정)</h2></section>
+    <section class="stage" data-stage="5"><h2>5단계 검수 (구현 예정)</h2></section>
+  </main>
   <script src="data/sample-books.js"></script>
   <script src="data/book-details.js"></script>
   <script src="data/ddc-dict.js"></script>
