@@ -12,7 +12,7 @@
       <img src="assets/biblo-logo.png" alt="biblo">
       <span class="subtitle">학술정보관 MARC 자동 생성</span>
     </div>
-    <button class="guide-btn" id="open-guide">📖 프로세스 설명서</button>
+    <button class="guide-btn" id="open-guide">프로세스 설명서</button>
   </header>
 
   <nav class="stepper" id="stepper">
@@ -30,7 +30,7 @@
   <main class="stages">
     <section class="stage active" data-stage="1">
   <div class="panel">
-    <div class="panel-h">📥 신규 도서 ISBN 입력</div>
+    <div class="panel-h">신규 도서 ISBN 입력</div>
     <div class="panel-body">
       <input type="text" id="isbn-input" class="text-input" placeholder="978-89-364-3412-0" style="margin-bottom: 14px;">
       <div class="label-sm" style="margin-bottom: 8px;">금일 입고 도서 (클릭 시 ISBN 자동 입력)</div>
@@ -43,7 +43,7 @@
 
   <div class="panel">
     <div class="panel-h">
-      📊 대시보드
+      대시보드
       <span class="meta">2026-05-06 기준 · 자동 갱신</span>
     </div>
     <div class="panel-body">
@@ -59,13 +59,13 @@
 
   <div class="panel">
     <div class="panel-h">
-      ✅ 생성 완료된 MARC
+      생성 완료된 MARC
       <span class="meta">최근 10건</span>
     </div>
     <table class="table">
       <thead>
         <tr>
-          <th style="width:36px;"></th>
+          <th style="width:56px;"></th>
           <th>제목 / 저자</th>
           <th style="width:150px;">ISBN</th>
           <th style="width:90px;">DDC</th>
@@ -96,7 +96,7 @@
 </section>
     <section class="stage" data-stage="4">
   <div id="stage-4-content"></div>
-  <div class="btn-row">
+  <div id="stage-4-buttons" class="btn-row">
     <button class="btn btn-ghost" onclick="goToStep(3)">← DDC 다시 매칭</button>
     <button class="btn btn-primary" onclick="completeStep(4)">최종 검수 →</button>
   </div>

@@ -7,7 +7,40 @@ const state = {
   selectedDDC: null,
   marcRecord: null,
   approval: null,
+  viewMode: false,
 };
+
+function getBookMeta(isbn) {
+  return SAMPLE_BOOKS.find(s => s.isbn === isbn) ||
+    (typeof COMPLETED_MARC_MOCK !== 'undefined' && COMPLETED_MARC_MOCK.find(b => b.isbn === isbn));
+}
+
+function viewCompletedMarc(isbn) {
+  if (!COMPLETED_MARC_DETAILS[isbn]) {
+    alert('해당 도서의 상세 데이터를 찾을 수 없습니다.');
+    return;
+  }
+  state.viewMode = true;
+  state.selectedISBN = isbn;
+  state.marcRecord = COMPLETED_MARC_DETAILS[isbn];
+  state.completedSteps = new Set([1, 2, 3, 4, 5]);
+  state.selectedDDC = { ddc: state.marcRecord.summary.ddc, name: '(이전 등록 분류)', score: '—' };
+  state.bookData = null;
+  goToStep(4);
+}
+
+function exitViewMode() {
+  state.viewMode = false;
+  state.completedSteps.clear();
+  state.selectedISBN = null;
+  state.bookData = null;
+  state.selectedDDC = null;
+  state.marcRecord = null;
+  document.getElementById('isbn-input').value = '';
+  document.querySelectorAll('#sample-chips .chip').forEach(c => { c.classList.remove('active'); c.classList.add('idle'); });
+  document.getElementById('call-book-info').disabled = true;
+  goToStep(1);
+}
 
 // === STAGE NAVIGATION ===
 function goToStep(n) {
@@ -45,6 +78,10 @@ function updateStepper() {
 document.querySelectorAll('.stepper .node').forEach(node => {
   node.addEventListener('click', () => {
     const step = Number(node.dataset.step);
+    if (state.viewMode) {
+      if (step !== state.currentStep) exitViewMode();
+      return;
+    }
     if (state.completedSteps.has(step) || step === state.currentStep) goToStep(step);
   });
 });
@@ -53,7 +90,7 @@ document.querySelectorAll('.stepper .node').forEach(node => {
 function renderSampleChips() {
   const container = document.getElementById('sample-chips');
   container.innerHTML = SAMPLE_BOOKS.map(b => `
-    <span class="chip idle" data-isbn="${b.isbn}">${b.emoji} ${b.title} · ${b.author}</span>
+    <span class="chip idle" data-isbn="${b.isbn}">${b.title} · ${b.author}</span>
   `).join('');
   container.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => selectSampleBook(chip.dataset.isbn));
@@ -88,33 +125,33 @@ document.getElementById('call-book-info').addEventListener('click', () => {
 
 // === STAGE 1: 완료 리스트 ===
 const COMPLETED_MARC_MOCK = [
-  { emoji: "📘", title: "지능의 탄생", author: "이대열", isbn: "9788932039459", ddc: "573.86", time: "14:22", reviewer: "김OO" },
-  { emoji: "📕", title: "한국 근현대사", author: "강만길", isbn: "9788958624028", ddc: "951.95", time: "14:18", reviewer: "김OO" },
-  { emoji: "📗", title: "딥러닝 입문", author: "김기현", isbn: "9791160505795", ddc: "006.31", time: "14:05", reviewer: "이OO" },
-  { emoji: "📙", title: "The Pragmatic Programmer", author: "Hunt, A.", isbn: "9780135957059", ddc: "005.1", time: "13:52", reviewer: "이OO" },
-  { emoji: "📔", title: "여행의 이유", author: "김영하", isbn: "9788954655729", ddc: "811.37", time: "13:40", reviewer: "박OO" },
-  { emoji: "📖", title: "채식주의자", author: "한강", isbn: "9788936433598", ddc: "811.36", time: "13:30", reviewer: "박OO" },
-  { emoji: "📓", title: "코스모스", author: "Sagan, Carl (홍승수 옮김)", isbn: "9788983711892", ddc: "520", time: "13:15", reviewer: "김OO" },
+  { title: "데이터로 읽고, 전략으로 움직여라", author: "김세훈, 서광민", isbn: "9791167527318", ddc: "658.8", time: "14:22", reviewer: "장석중" },
+  { title: "센의 대여 서점", author: "다카세 노리미츠 (이아미 옮김)", isbn: "9791192313832", ddc: "813.36", time: "14:18", reviewer: "박민홍" },
+  { title: "돈의 방정식", author: "모건 하우절 (박영문 옮김)", isbn: "9791193904671", ddc: "332.024", time: "14:05", reviewer: "김경석" },
+  { title: "무례한 세상에서 나를 지키는 법", author: "발타자르 그라시안", isbn: "9791199489530", ddc: "179.9", time: "13:52", reviewer: "장석중" },
+  { title: "렛뎀 이론", author: "멜 로빈스 (이지연 옮김)", isbn: "9791162544327", ddc: "158.1", time: "13:40", reviewer: "박민홍" },
+  { title: "뇌는 어떻게 나를 조종하는가", author: "크리스 나이바우어 (김윤경 옮김)", isbn: "9791193941577", ddc: "612.82", time: "13:30", reviewer: "김경석" },
+  { title: "왜 그들만 부자가 되는가", author: "윌리엄 번스타인 (백선영 옮김)", isbn: "9791193937396", ddc: "332.46", time: "13:15", reviewer: "장석중" },
 ];
 
 function renderCompletedList() {
   const tbody = document.getElementById('completed-list-body');
   tbody.innerHTML = COMPLETED_MARC_MOCK.map(b => `
     <tr>
-      <td>${b.emoji}</td>
+      <td><img class="cover-thumb" src="assets/covers/${b.isbn}.jpg" alt="${b.title} 표지"></td>
       <td><strong>${b.title}</strong> / <span style="color:var(--text-3)">${b.author}</span></td>
       <td class="mono" style="font-size:13px;">${b.isbn}</td>
       <td><span class="ddc-mono">${b.ddc}</span></td>
       <td style="font-size:13px;color:var(--text-3);">${b.time}</td>
       <td>${b.reviewer}</td>
       <td><span class="badge badge-done">승인</span></td>
-      <td style="text-align:right;"><a class="link">상세 →</a></td>
+      <td style="text-align:right;"><a class="link" data-isbn="${b.isbn}">상세 →</a></td>
     </tr>
   `).join('');
   tbody.querySelectorAll('.link').forEach(link => {
-    link.addEventListener('click', () => alert('[상세 보기 화면 준비 중]'));
+    link.addEventListener('click', () => viewCompletedMarc(link.dataset.isbn));
   });
-  document.getElementById('show-all-completed').addEventListener('click', () => alert('[전체 목록 화면 준비 중]'));
+  document.getElementById('show-all-completed').addEventListener('click', () => alert('전체 27건 목록은 추후 제공됩니다.'));
 }
 
 // === FINGERPRINT (Stage 2) ===
@@ -155,7 +192,7 @@ function renderFingerprintCard() {
   document.getElementById('fingerprint-card-host').innerHTML = `
     <div class="panel">
       <div class="panel-body">
-        <div class="section-h-mini">🔍 책 지문 — Fingerprint 17필드 <span class="meta">3단계 DDC 매칭에 사용</span></div>
+        <div class="section-h-mini">책 지문 — Fingerprint 17필드 <span class="meta">3단계 DDC 매칭에 사용</span></div>
         ${rows}
         ${hiddenNote}
       </div>
@@ -199,12 +236,12 @@ function renderStage2() {
         <h2>${b.title}</h2>
         <div class="meta-line">${b.author} (지음) · ${b.publisher} · ${b.year} · ISBN ${state.selectedISBN}</div>
       </div>
-      <button class="btn btn-ghost" id="expand-fingerprint">✏️ 모두 펼쳐서 편집</button>
+      <button class="btn btn-ghost" id="expand-fingerprint">모두 펼쳐서 편집</button>
     </div>
 
     <div class="panel">
       <div class="panel-body">
-        <div class="section-h-mini">📚 서지 기본 정보 <span class="meta">국립중앙도서관 API 호출 결과</span></div>
+        <div class="section-h-mini">서지 기본 정보 <span class="meta">국립중앙도서관 API 호출 결과</span></div>
         <div class="kv-row"><div class="k">제목</div><div class="v">${b.title}</div></div>
         <div class="kv-row"><div class="k">저자</div><div class="v">${b.author}</div></div>
         <div class="kv-row"><div class="k">출판사</div><div class="v">${b.publisher} (${b.publisher_place})</div></div>
@@ -221,7 +258,7 @@ function renderStage2() {
   renderFingerprintCard();
   document.getElementById('expand-fingerprint').addEventListener('click', () => {
     fingerprintExpanded = !fingerprintExpanded;
-    document.getElementById('expand-fingerprint').textContent = fingerprintExpanded ? '⬆ 핵심만 보기' : '✏️ 모두 펼쳐서 편집';
+    document.getElementById('expand-fingerprint').textContent = fingerprintExpanded ? '핵심만 보기' : '모두 펼쳐서 편집';
     renderFingerprintCard();
   });
 }
@@ -246,13 +283,13 @@ function renderStage3() {
         <h2>DDC 분류번호 매칭</h2>
         <div class="sub">${meta.author} 『${meta.title}』 — 책 지문을 SKKU DDC 사전 25,000여 항목과 비교</div>
       </div>
-      <span class="timing-badge">⚡ 자동 매칭 완료 · 0.8초</span>
+      <span class="timing-badge">자동 매칭 완료 · 0.8초</span>
     </div>
 
     <div class="ddc-card recommended" data-ddc="${rec.ddc}">
       <div class="ddc-row-top">
         <div>
-          <span class="ai-pick-badge">★ AI 추천</span>
+          <span class="ai-pick-badge">AI 추천</span>
           <div style="margin-top:10px;display:flex;align-items:baseline;gap:12px;">
             <span class="ddc-num">${rec.ddc}</span>
             <span class="ddc-name">${rec.name}</span>
@@ -327,28 +364,45 @@ let marcRawMode = false;
 let marcCollapseOpen = false;
 
 function renderStage4() {
-  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
-  const marc = MARC_RECORDS[state.selectedISBN];
+  const isView = state.viewMode === true;
+  const meta = getBookMeta(state.selectedISBN);
+  const marc = isView ? COMPLETED_MARC_DETAILS[state.selectedISBN] : MARC_RECORDS[state.selectedISBN];
   state.marcRecord = marc;
 
+  const banner = isView
+    ? `<div class="view-banner">등록 완료된 레코드 — 조회 모드 (수정 불가)</div>`
+    : '';
+  const subline = isView
+    ? `${meta.author} 『${meta.title}』 · DDC ${marc.summary.ddc} · 등록 완료 (검수자: ${meta.reviewer || '—'})`
+    : `${meta.author} 『${meta.title}』 · DDC ${marc.summary.ddc} · SKKU MARC21 사전(361,353건 분석) 기반`;
+
   document.getElementById('stage-4-content').innerHTML = `
+    ${banner}
     <div class="stage-h">
       <div>
-        <h2>MARC 레코드 자동 생성</h2>
-        <div class="sub">${meta.author} 『${meta.title}』 · DDC ${marc.summary.ddc} · SKKU MARC21 사전(361,353건 분석) 기반</div>
+        <h2>${isView ? 'MARC 레코드 조회' : 'MARC 레코드 자동 생성'}</h2>
+        <div class="sub">${subline}</div>
       </div>
       <div class="toggle-bar">
         <button class="${marcRawMode ? '' : 'on'}" id="toggle-friendly">사용자 친화</button>
         <button class="${marcRawMode ? 'on' : ''}" id="toggle-raw">Raw MARC</button>
       </div>
     </div>
-    <div class="info-badges">
-      <span class="info-badge indigo">⚡ ${marc.summary.total}개 필드 자동 생성 · 1.2초</span>
-      <span class="info-badge neutral">🔒 필수 필드 11개 충족</span>
-      <span class="info-badge neutral">✓ 규칙 체크 통과</span>
-    </div>
+    ${isView ? '' : `<div class="info-badges">
+      <span class="info-badge indigo">${marc.summary.total}개 필드 자동 생성 · 1.2초</span>
+      <span class="info-badge neutral">필수 필드 11개 충족</span>
+      <span class="info-badge neutral">규칙 체크 통과</span>
+    </div>`}
     <div id="marc-host"></div>
   `;
+
+  const btnRow = document.getElementById('stage-4-buttons');
+  if (btnRow) {
+    btnRow.innerHTML = isView
+      ? `<button class="btn btn-ghost" onclick="exitViewMode()">← 완료 목록으로</button>`
+      : `<button class="btn btn-ghost" onclick="goToStep(3)">← DDC 다시 매칭</button>
+         <button class="btn btn-primary" onclick="completeStep(4)">최종 검수 →</button>`;
+  }
 
   document.getElementById('toggle-friendly').addEventListener('click', () => { marcRawMode = false; renderMarcBody(); document.getElementById('toggle-friendly').classList.add('on'); document.getElementById('toggle-raw').classList.remove('on'); });
   document.getElementById('toggle-raw').addEventListener('click', () => { marcRawMode = true; renderMarcBody(); document.getElementById('toggle-raw').classList.add('on'); document.getElementById('toggle-friendly').classList.remove('on'); });
@@ -366,13 +420,14 @@ function renderMarcBody() {
     return;
   }
 
+  const isView = state.viewMode === true;
   const renderField = (f) => `
-    <div class="marc-row" data-tag="${f.tag}" data-edit="${f.tag === '520' ? 'true' : 'false'}">
+    <div class="marc-row" data-tag="${f.tag}" data-edit="${(!isView && f.tag === '520') ? 'true' : 'false'}">
       <div><div class="tag ${f.essential ? 'essential' : ''}">${f.tag}</div><div class="tag-name">${f.name}</div></div>
       <div class="ind">${f.ind1 || ''}</div>
       <div class="ind">${f.ind2 || ''}</div>
       <div class="val">${formatValueHTML(f.value)}</div>
-      <div><span class="marc-status ${f.edited ? 'status-edit' : 'status-auto'}">${f.edited ? '수정됨' : '자동'}</span></div>
+      <div><span class="marc-status ${f.edited ? 'status-edit' : 'status-auto'}">${isView ? '등록' : (f.edited ? '수정됨' : '자동')}</span></div>
     </div>`;
 
   host.innerHTML = `
@@ -448,11 +503,11 @@ function renderStage5() {
         <h2>최종 검수 — 사람이 확인합니다</h2>
         <div class="sub">자동 생성 결과를 검토하고 책임자 승인 후 저장됩니다.</div>
       </div>
-      <span class="review-status-badge review-pending">⚠️ 미승인 상태</span>
+      <span class="review-status-badge review-pending">미승인 상태</span>
     </div>
 
     <div class="panel">
-      <div class="panel-h">📋 처리 요약</div>
+      <div class="panel-h">처리 요약</div>
       <div class="summary-grid">
         <div class="summary-item"><div class="label">도서</div><div class="value">${meta.title} / ${meta.author}</div></div>
         <div class="summary-item"><div class="label">ISBN</div><div class="value mono">${state.selectedISBN}</div></div>
@@ -464,7 +519,7 @@ function renderStage5() {
     </div>
 
     <div class="panel">
-      <div class="panel-h">✅ 자동 검증 결과 <span class="meta" style="color:var(--green);">${checks.length}/${checks.length} 통과</span></div>
+      <div class="panel-h">자동 검증 결과 <span class="meta" style="color:var(--green);">${checks.length}/${checks.length} 통과</span></div>
       ${checks.map(c => `
         <div class="check-row">
           <div class="check-icon ${c.icon === 'pass' ? 'check-pass' : 'check-info'}">${c.icon === 'pass' ? '✓' : 'i'}</div>
@@ -474,7 +529,7 @@ function renderStage5() {
     </div>
 
     <div class="panel green-border">
-      <div class="panel-h green">👤 검수자 확인</div>
+      <div class="panel-h green">검수자 확인</div>
       <div class="reviewer-form">
         <div class="row">
           <div><label>검수자</label><input type="text" class="text-input" id="reviewer-name" value="김OO 사서"></div>
@@ -494,7 +549,7 @@ function renderStage5() {
     <div class="btn-row">
       <div style="display:flex;gap:6px;">
         <button class="btn btn-ghost" onclick="goToStep(4)">← MARC 다시 보기</button>
-        <button class="btn btn-ghost" id="export-marc">⬇️ MARC 파일로 내보내기</button>
+        <button class="btn btn-ghost" id="export-marc">MARC 파일로 내보내기</button>
       </div>
       <button class="btn-confirm" id="confirm-approval" disabled>✓ 승인하고 등록</button>
     </div>
