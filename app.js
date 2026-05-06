@@ -424,6 +424,142 @@ goToStep = function(n) {
   if (n === 4) { marcCollapseOpen = false; marcRawMode = false; renderStage4(); }
 };
 
+// === STAGE 5 ===
+function renderStage5() {
+  const meta = SAMPLE_BOOKS.find(s => s.isbn === state.selectedISBN);
+  const marc = state.marcRecord;
+  const isTrans = marc.is_translation;
+
+  const checks = [
+    { icon: 'pass', title: '필수 필드 11개 충족', desc: '001, 005, 007, 008, 020, 040, 082, 090, 100, 245, 260, 300' },
+    { icon: 'pass', title: '의존관계 규칙 통과', desc: '082→090 청구기호 파생, 100→245 ind1=1 일치' },
+    { icon: 'pass', title: '인디케이터 패턴 SKKU 표준 부합', desc: '한국인 저자 100 ind1=0, 245 ind1=1' },
+    { icon: 'pass', title: '구두점 규칙 OK', desc: '245 "/", 260 ":/," 등 ISBD 구두점 적용' },
+    isTrans
+      ? { icon: 'pass', title: '번역서 분기 일관성', desc: '041 $h, 246, 700 역자, 900 모두 생성됨' }
+      : { icon: 'pass', title: '번역서 분기 일관성', desc: '원작서 → 041 $h, 246, 700 역자, 900 미생성 정상' },
+    { icon: 'info', title: '참조 가능', desc: `DDC ${marc.summary.ddc} SKKU 동일분류 도서 평균 13개 필드 사용` },
+    { icon: 'info', title: '책 지문 fingerprint 17필드 모두 채워짐', desc: '검색랭킹 활용 가능' },
+  ];
+
+  document.getElementById('stage-5-content').innerHTML = `
+    <div class="stage-h">
+      <div>
+        <h2>최종 검수 — 사람이 확인합니다</h2>
+        <div class="sub">자동 생성 결과를 검토하고 책임자 승인 후 저장됩니다.</div>
+      </div>
+      <span class="review-status-badge review-pending">⚠️ 미승인 상태</span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h">📋 처리 요약</div>
+      <div class="summary-grid">
+        <div class="summary-item"><div class="label">도서</div><div class="value">${meta.title} / ${meta.author}</div></div>
+        <div class="summary-item"><div class="label">ISBN</div><div class="value mono">${state.selectedISBN}</div></div>
+        <div class="summary-item"><div class="label">DDC</div><div class="value">${marc.summary.ddc} (${state.selectedDDC.name}) <span class="accent">매칭점수 ${state.selectedDDC.score}/100</span></div></div>
+        <div class="summary-item"><div class="label">청구기호</div><div class="value mono">${marc.summary.call_no}</div></div>
+        <div class="summary-item"><div class="label">생성된 MARC 필드 수</div><div class="value">${marc.summary.total}개 (필수 11 + 권장 ${marc.summary.total - 11})</div></div>
+        <div class="summary-item"><div class="label">수정된 필드</div><div class="value">${marc.summary.edited || 0}개</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h">✅ 자동 검증 결과 <span class="meta" style="color:var(--green);">${checks.length}/${checks.length} 통과</span></div>
+      ${checks.map(c => `
+        <div class="check-row">
+          <div class="check-icon ${c.icon === 'pass' ? 'check-pass' : 'check-info'}">${c.icon === 'pass' ? '✓' : 'i'}</div>
+          <div style="flex:1;"><strong>${c.title}</strong> · <span style="color:var(--text-3)">${c.desc}</span></div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="panel green-border">
+      <div class="panel-h green">👤 검수자 확인</div>
+      <div class="reviewer-form">
+        <div class="row">
+          <div><label>검수자</label><input type="text" class="text-input" id="reviewer-name" value="김OO 사서"></div>
+          <div><label>검수 일시</label><input type="text" class="text-input" id="reviewer-time" value="${new Date().toISOString().slice(0,16).replace('T',' ')}"></div>
+        </div>
+        <div style="margin-bottom:12px;">
+          <label>검수 메모 (선택)</label>
+          <textarea id="reviewer-memo" placeholder="예: 520 요약주기를 도서관 표준 양식에 맞게 수정함."></textarea>
+        </div>
+        <label class="commit-check">
+          <input type="checkbox" id="reviewer-commit">
+          위 자동 검증 ${checks.length}건 및 모든 MARC 필드를 직접 확인했으며, 본 레코드를 정식 등록할 책임을 진다.
+        </label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <div style="display:flex;gap:6px;">
+        <button class="btn btn-ghost" onclick="goToStep(4)">← MARC 다시 보기</button>
+        <button class="btn btn-ghost" id="export-marc">⬇️ MARC 파일로 내보내기</button>
+      </div>
+      <button class="btn-confirm" id="confirm-approval" disabled>✓ 승인하고 등록</button>
+    </div>
+  `;
+
+  document.getElementById('reviewer-commit').addEventListener('change', (e) => {
+    document.getElementById('confirm-approval').disabled = !e.target.checked;
+  });
+
+  document.getElementById('export-marc').addEventListener('click', () => {
+    alert('[MARC 파일 내보내기 — 시연 목업]');
+  });
+
+  document.getElementById('confirm-approval').addEventListener('click', () => {
+    handleApproval();
+  });
+}
+
+function handleApproval() {
+  state.approval = {
+    reviewer: document.getElementById('reviewer-name').value,
+    time: document.getElementById('reviewer-time').value,
+    memo: document.getElementById('reviewer-memo').value,
+    isbn: state.selectedISBN,
+  };
+
+  const stat = document.getElementById('stat-completed');
+  const rate = document.getElementById('stat-rate');
+  const m = stat.textContent.match(/(\d+)\/(\d+)/);
+  if (m) {
+    const newDone = Number(m[1]) + 1;
+    const total = Number(m[2]);
+    stat.innerHTML = `${newDone}<span class="unit">/${total}</span>`;
+    rate.textContent = `진행률 ${(newDone / total * 100).toFixed(1)}%`;
+  }
+
+  showToast(`등록 완료 · 대시보드 카운트가 ${m ? Number(m[1]) + 1 : '?'}/${m ? m[2] : '?'}로 갱신됨`);
+
+  setTimeout(() => {
+    state.completedSteps.clear();
+    state.selectedISBN = null;
+    state.bookData = null;
+    state.selectedDDC = null;
+    state.marcRecord = null;
+    document.getElementById('isbn-input').value = '';
+    document.querySelectorAll('#sample-chips .chip').forEach(c => { c.classList.remove('active'); c.classList.add('idle'); });
+    document.getElementById('call-book-info').disabled = true;
+    goToStep(1);
+  }, 1500);
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = `✓ ${msg}`;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+
+const _origGoToStep_s5 = goToStep;
+goToStep = function(n) {
+  _origGoToStep_s5(n);
+  if (n === 5) renderStage5();
+};
+
 // === INIT ===
 renderSampleChips();
 renderCompletedList();
