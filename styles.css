@@ -141,3 +141,10 @@ body { min-height: 100vh; }
 .kv-row .v.muted { color: var(--text-4); }
 
 .tag { display: inline-block; padding: 2px 8px; background: var(--indigo-50); color: var(--indigo); border-radius: var(--radius-xs); font-size: 10px; font-weight: 500; margin-right: 4px; margin-bottom: 3px; }
+
+.tag.editable { cursor: pointer; transition: all 0.15s; }
+.tag.editable:hover { background: #fff; border: 1px solid var(--indigo); padding: 1px 7px; }
+.tag .x { color: var(--indigo); margin-left: 4px; opacity: 0; transition: opacity 0.15s; }
+.tag.editable:hover .x { opacity: 1; }
+.tag-add { display: inline-block; padding: 2px 8px; background: #fff; color: var(--indigo); border: 1px dashed var(--indigo); border-radius: var(--radius-xs); font-size: 10px; cursor: pointer; }
+.tag-add:hover { background: var(--indigo-50); }

@@ -117,6 +117,76 @@ function renderCompletedList() {
   document.getElementById('show-all-completed').addEventListener('click', () => alert('[전체 목록 화면 준비 중]'));
 }
 
+// === FINGERPRINT (Stage 2) ===
+const FP_VISIBLE_KEYS = ['synopsis', 'concept', 'genre', 'event', 'place', 'character', 'target_audience', 'tone_and_style', 'notable_features', 'synthetic_queries'];
+const FP_HIDDEN_KEYS = ['object', 'purpose'];
+const FP_LABELS = {
+  synopsis: '개요 (synopsis)', concept: '핵심 개념', genre: '장르', event: '사건', place: '장소',
+  character: '등장인물', target_audience: '독자층', tone_and_style: '문체',
+  notable_features: '특이점', synthetic_queries: '검색쿼리', object: '소품·물체', purpose: '집필 목적'
+};
+
+let fingerprintExpanded = false;
+
+function renderFingerprintCard() {
+  const fp = state.bookData.fingerprint;
+  const visibleKeys = fingerprintExpanded ? [...FP_VISIBLE_KEYS, ...FP_HIDDEN_KEYS] : FP_VISIBLE_KEYS;
+
+  const renderValue = (key, val) => {
+    if (key === 'synopsis') return `<div class="v">${val}</div>`;
+    if (Array.isArray(val)) {
+      if (val.length === 0) return `<div class="v muted">— (해당 없음)</div>`;
+      return `<div class="v" data-fp-key="${key}">
+        ${val.map((item, idx) => `<span class="tag editable" data-idx="${idx}">${item}<span class="x">✕</span></span>`).join('')}
+        <span class="tag-add" data-add="${key}">+ 추가</span>
+      </div>`;
+    }
+    return `<div class="v">${val}</div>`;
+  };
+
+  const rows = visibleKeys.map(k => `
+    <div class="kv-row"><div class="k">${FP_LABELS[k]}</div>${renderValue(k, fp[k])}</div>
+  `).join('');
+
+  const hiddenNote = fingerprintExpanded
+    ? ''
+    : `<div style="margin-top:10px;font-size:11px;color:var(--text-4);">… +${FP_HIDDEN_KEYS.length + 5}개 필드 (object/purpose, gen 메타 등) — "모두 펼쳐서 편집" 클릭 시 표시</div>`;
+
+  document.getElementById('fingerprint-card-host').innerHTML = `
+    <div class="panel">
+      <div class="panel-body">
+        <div class="section-h-mini">🔍 책 지문 — Fingerprint 17필드 <span class="meta">3단계 DDC 매칭에 사용</span></div>
+        ${rows}
+        ${hiddenNote}
+      </div>
+    </div>
+  `;
+
+  attachFingerprintEdits();
+}
+
+function attachFingerprintEdits() {
+  document.querySelectorAll('#fingerprint-card-host .tag.editable').forEach(tag => {
+    tag.addEventListener('click', (e) => {
+      const row = tag.closest('[data-fp-key]');
+      const key = row.dataset.fpKey;
+      const idx = Number(tag.dataset.idx);
+      state.bookData.fingerprint[key].splice(idx, 1);
+      renderFingerprintCard();
+    });
+  });
+  document.querySelectorAll('#fingerprint-card-host .tag-add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.add;
+      const v = prompt(`"${FP_LABELS[key]}"에 추가할 값:`);
+      if (v && v.trim()) {
+        state.bookData.fingerprint[key].push(v.trim());
+        renderFingerprintCard();
+      }
+    });
+  });
+}
+
 // === STAGE 2 ===
 function renderStage2() {
   if (!state.bookData) return;
